@@ -4,6 +4,16 @@ var mongoose = require('mongoose'),
 var modelSchema = new Schema({  
   name:    { type: String },
   password:    { type: String },
+  invisible:    { type: String },
+  visible:    { type: String },
+  invisibleMessages : [{
+        text : { type: String },
+        origin : { type: Boolean }
+    }],
+  visibleMessages : [{
+        text : { type: String },
+        origin : { type: Boolean }
+  }],
   presents : [{
         idea : { type: String },
         user : { type: String }

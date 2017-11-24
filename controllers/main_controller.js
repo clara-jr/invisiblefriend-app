@@ -59,4 +59,100 @@ exports.deletePresentOfParticipant = function(req, res) {
     });
 }
 
+//GET
+exports.goChat = function(req, res) {  
+    var errors = req.session.errors || {};
+    req.session.errors = {};
+    Model.findById(req.session.user.id, function(err, participant) {
+        if(err) return res.status(500).send(err.message);
+        console.log('GET /chat');
+        res.render('chat/index', {participant: participant, errors: errors});
+    });
+};
+
+//PUT
+exports.createChat = function(req, res) {  
+    if (req.body.friend) {
+        Model.findOne({
+            name: req.body.friend
+        }, function(err, existent) {
+            if(err) {
+                req.session.errors = {"message": 'Se ha producido un error: '+err};
+                console.log(req.session.errors.message);
+                res.redirect('/login');
+                return;
+            }
+            if (existent) {
+                Model.update({_id: existent.id},{$push: {invisible: [req.session.user.id]}}, {upsert:true}, function(err, result) {
+                    console.log(result);
+                });
+                Model.update({_id: req.session.user.id},{$push: {visible: [existent.id]}}, {upsert:true}, function(err, result) {
+                    console.log(result);
+                });
+            } else {
+                req.session.errors = {"message": 'Usuario inexistente'};
+                console.log(req.session.errors);
+                console.log(req.session.errors.message);
+            }
+            res.redirect('/chat');
+        });
+    } else {
+        req.session.errors = {"message": 'Rellena el campo'};
+        console.log(req.session.errors);
+        console.log(req.session.errors.message);
+        res.redirect('/chat');
+    }
+};
+
+//PUT chat desde el usuario a su visible
+exports.sendChatVisible = function(req, res) {  
+    if (req.body.chat) {
+        Model.findById(req.session.user.id, function(err, participant) {
+            if(err) {
+                req.session.errors = {"message": 'Se ha producido un error: '+err};
+                console.log(req.session.errors.message);
+                res.redirect('/chat');
+                return;
+            }
+            Model.update({_id: participant.id},{$push: {visibleMessages:{text: [req.body.chat], origin: true}}}, {upsert:true}, function(err, result) {
+                console.log(result);
+            });
+            Model.update({_id: participant.visible},{$push: {invisibleMessages:{text: [req.body.chat], origin: false}}}, {upsert:true}, function(err, result) {
+                console.log(result);
+            });
+            res.redirect('/chat');
+        });
+    } else {
+        req.session.errors = {"message": 'Rellena el campo'};
+        console.log(req.session.errors);
+        console.log(req.session.errors.message);
+        res.redirect('/chat');
+    }
+};
+
+//PUT
+exports.sendChatInvisible = function(req, res) {  
+    if (req.body.chat) {
+        Model.findById(req.session.user.id, function(err, participant) {
+            if(err) {
+                req.session.errors = {"message": 'Se ha producido un error: '+err};
+                console.log(req.session.errors.message);
+                res.redirect('/chat');
+                return;
+            }
+            Model.update({_id: participant.id},{$push: {invisibleMessages:{text: [req.body.chat], origin: true}}}, {upsert:true}, function(err, result) {
+                console.log(result);
+            });
+            Model.update({_id: participant.invisible},{$push: {visibleMessages:{text: [req.body.chat], origin: false}}}, {upsert:true}, function(err, result) {
+                console.log(result);
+            });
+            res.redirect('/chat');
+        });
+    } else {
+        req.session.errors = {"message": 'Rellena el campo'};
+        console.log(req.session.errors);
+        console.log(req.session.errors.message);
+        res.redirect('/chat');
+    }
+};
 
