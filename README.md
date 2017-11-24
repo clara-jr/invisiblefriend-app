@@ -1,4 +1,4 @@
-## node-api-rest
+## invisiblefriend-app
 
 ### Dependencies
 
@@ -9,6 +9,8 @@
 ### How to install
 
 <pre>
+git clone https://github.com/clara-jr/invisiblefriend-app.git
+cd invisiblefriend-app
 npm install
 </pre>
 
@@ -16,7 +18,7 @@ npm install
 
 + The server is configured to listen in port 8080. You can modify it.
 + Now you can see the app in port 8080: http://localhost:8080
-+ You can also see the data from mongodb in mongodb://localhost/invisiblefriendcedint
++ You can also see the data from mongodb in mongodb://localhost/invisiblefriend
 
 ### How to run
 
