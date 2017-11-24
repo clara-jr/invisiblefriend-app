@@ -27,11 +27,11 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <%if(!session.user){%>
-            <li><a href="/user"><span class="glyphicon glyphicon-edit"></span>Sign up</a></li>
-            <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
+            <li><a href="/user"><span class="myglyphicon glyphicon glyphicon-edit"></span>Sign up</a></li>
+            <li><a href="/login"><span class="myglyphicon glyphicon glyphicon-log-in"></span>Login</a></li>
           <%}else{%>
-            <li><a href="/participants"><span class="glyphicon glyphicon-home"></span>Game</a></li>
-            <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
+            <li><a href="/participants"><span class="myglyphicon glyphicon glyphicon-home"></span>Game</a></li>
+            <li><a href="/logout"><span class="myglyphicon glyphicon glyphicon-log-out"></span>Logout</a></li>
           <%}%>
         </ul>
       </div>

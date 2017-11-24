@@ -7,7 +7,7 @@
 					<form method="post" action="/participants/<%=participant._id%>/<%=participant.presents[f].id%>?_method=delete">
 						<span><%=participant.presents[f].idea%>
 						<%if (session.user && session.user.username === participant.presents[f].user) {%>
-						    <button class="btn btn-danger" type="submit">Delete</button>
+						    <button class="btn btn-danger btn-xs" type="submit"><span class="glyphicon glyphicon-remove"></span></button>
 						<%}%>
 						</span>
 					</form>
@@ -26,7 +26,7 @@
 			</div>
 			<div class="form-group">
 				<div class="col-sm-12">
-			    	<button class="btn btn-info" type="submit">Añadir idea para putear a <%=participant.name%></button>
+			    	<button class="mybtn btn btn-info" type="submit">Añadir idea para putear a <%=participant.name%></button>
 			    </div>
 		    </div>
 		</form>

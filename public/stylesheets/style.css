@@ -13,7 +13,7 @@ a {
 	color: black;
 }
 
-.glyphicon {
+.myglyphicon {
 	padding-right: 10px;
 }
 
@@ -33,10 +33,14 @@ a {
 	padding-top: 15px;
 }
 
-.btn {
+.mybtn {
 	margin-top: 20px;
 	margin-bottom: 20px;
 	font-size: 18px;
+}
+
+.btn-xs {
+	border-radius: 50%;
 }
 
 input {
