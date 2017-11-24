@@ -1,0 +1,37 @@
+<div class="container">
+	<div class="col-xs-12">
+		<h2><%=participant.name%></h2>
+		<%if (participant.presents.length > 0) {%>
+			<%for (var f in participant.presents) {%>
+				<%if (participant.presents.idea !== "") {%>
+					<form method="post" action="/participants/<%=participant._id%>/<%=participant.presents[f].id%>?_method=delete">
+						<span><%=participant.presents[f].idea%>
+						<%if (session.user && session.user.username === participant.presents[f].user) {%>
+						    <button class="btn btn-danger" type="submit">Delete</button>
+						<%}%>
+						</span>
+					</form>
+				<%}%>
+			<%}%>
+		<%}%>
+		<form method="post" action="/participants/<%=participant._id%>?_method=put">
+			<div class="form-group">
+				<h4 class="control-label col-sm-12" for="present">¿Tienes una idea de regalo?</h4>
+			</div>
+			<div class="form-group">
+			    <label class="control-label col-sm-2" for="idea">Introducir idea maravillosa aquí:</label>
+			    <div class="col-sm-10">
+			      	<input class="form-control" type="text" name="idea" id="idea"/>
+			    </div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-12">
+			    	<button class="btn btn-info" type="submit">Añadir idea para putear a <%=participant.name%></button>
+			    </div>
+		    </div>
+		</form>
+		<%if(errors.message){%>
+		  	<div class="alert alert-danger" role="alert">Error: <%=errors.message%></div>
+		<%}%>
+	</div>
+</div>

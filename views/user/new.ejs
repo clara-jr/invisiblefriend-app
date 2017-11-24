@@ -1,0 +1,9 @@
+<div class="container">
+  <form action="/user" method="post" class="form-horizontal" role="form">  
+    <p>Sign Up:</p>    
+    <% include _form.ejs %>
+  </form>
+  <%if(errors.message){%>
+  	<div class="alert alert-danger" role="alert">Error: <%=errors.message%></div>
+  <%}%>
+</div>
