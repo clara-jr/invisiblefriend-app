@@ -27,6 +27,7 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <%if(!session.user){%>
+            <li><a href="/"><span class="myglyphicon glyphicon glyphicon-home"></span>Game</a></li>
             <li><a href="/user"><span class="myglyphicon glyphicon glyphicon-edit"></span>Sign up</a></li>
             <li><a href="/login"><span class="myglyphicon glyphicon glyphicon-log-in"></span>Login</a></li>
           <%}else{%>

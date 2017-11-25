@@ -66,7 +66,15 @@ exports.goChat = function(req, res) {
     Model.findById(req.session.user.id, function(err, participant) {
         if(err) return res.status(500).send(err.message);
         console.log('GET /chat');
-        res.render('chat/index', {participant: participant, errors: errors});
+        if (participant.visible) {
+            Model.findById(participant.visible, function(err, amigo) {
+                if(err) return res.status(500).send(err.message);
+                console.log('GET /chat');
+                res.render('chat/index', {participant: participant, amigo: amigo, errors: errors});
+            });
+        } else {
+            res.render('chat/index', {participant: participant, errors: errors});
+        }
     });
 };
 
