@@ -18,7 +18,6 @@ router.route('/sorteo')
 
 router.route('/chat')  
   	.get(sessionController.loginRequired, mainController.goChat);
-  	//.put(sessionController.loginRequired, mainController.createChat);
 
 router.route('/chat/actionVisible')
   	.put(sessionController.loginRequired, mainController.sendChatVisible);

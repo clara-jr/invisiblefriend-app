@@ -1,14 +1,14 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <p> Estos son tus chats. ¡Manda mensajes a </br />
+            <p> Estos son tus chats<br>¡Manda mensajes a 
             tu amigo invisible o al destinatario de tu maravilloso regalo!
             </p>
             <br />
             <%if (participant.visible) {%>
                 <p>Disfruta hablando con tu amigo invisible bajo el anonimato <span class="glyphicon glyphicon-sunglasses"></span></p>
             <%} else {%>
-                <p>Una vez realizado el sorteo podrás hablar con tu amigo invisible desde el anonimato, ¿a qué esperáis para realizar el sorteo y empezar a jugar?</p>
+                <p>Una vez realizado el sorteo podrás hablar con tu amigo invisible desde el anonimato<br>¿A qué esperáis para realizar el sorteo y empezar a jugar?</p>
             <%}%>
             <div class="row">
                 <div class="col-md-6">
@@ -40,9 +40,9 @@
                 </div>
                 <div class="col-md-6">
                     <%if(participant.visible){%>
-                        <p><u> Putea tranquilo a <%=amigo.name%> </u> </p> <br />
+                        <p><u> Putea tranquilo a <%=amigo.name%> </u> </p> <br>
                     <%} else {%>
-                        <p><u> Putea tranquilo </u> </p> <br />
+                        <p><u> Putea tranquilo </u> </p> <br>
                     <%}%>
                     <div id="scroll" class="scroll" style="height: 400px; padding: 30px; overflow: auto; background-color: #F2F2F2; border: 3px solid #E6E6E6; word-wrap: break-word">
                     		<%for (var f in participant.visibleMessages) {%>

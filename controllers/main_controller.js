@@ -9,8 +9,20 @@ exports.findAll = function(req, res) {
         groupId: req.session.user.group
     }, function(err, model) {
     	if(err) res.send(500, err.message);
-    	console.log('GET /participants')
-        res.render('participants/index', {model: model});
+    	console.log('GET /participants');
+        Model.findById(req.session.user.id, function(err, participant) {
+            if(err) return res.status(500).send(err.message);
+            console.log('GET /participants/' + req.session.user.id);
+            if (participant.visible) {
+                Model.findById(participant.visible, function(err, amigo) {
+                    if(err) return res.status(500).send(err.message);
+                    console.log('GET /chat');
+                    res.render('participants/index', {model: model, amigo: amigo, date: participant.date, maxPrice: participant.maxPrice});
+                });
+            } else {
+                res.render('participants/index', {model: model});
+            }
+        });
     });
 };
 
@@ -34,7 +46,6 @@ exports.addPresentToParticipant = function(req, res) {
             console.log('ADD Present: ' + count);
             Model.update({_id: modelId},{$push: {presents:{idea: [req.body.idea], user: [req.session.user.username]}}}, {upsert:true}, function(err, result) {
                console.log(result);
-               //res.render('participants/show', {participant: participant});
                res.redirect('/participants/'+modelId);
             });
         });
@@ -51,7 +62,6 @@ exports.deletePresentOfParticipant = function(req, res) {
     Model.findOne({_id: modelId, presents: {$elemMatch: {_id: presentId}}}).count(function(err, count)
     {
         if(count == 0) {
-            //res.json("Filter does not exists in DB.");
             res.redirect('/participants/'+modelId);
         } else {
             Model.update({_id: modelId},{$pull: {presents:{_id: [presentId]}}}, function(err, result) {
@@ -77,6 +87,8 @@ exports.goSorteo = function(req, res) {
 
 //PUT
 exports.createSorteo = function(req, res) {  
+    var date = req.body.date;
+    var maxPrice = req.body.maxprice;
     Model.find({
         groupId: req.session.user.group
     }, function(err, model) {
@@ -87,16 +99,16 @@ exports.createSorteo = function(req, res) {
         modelrandom = shuffle(model);
         for (i = 0; i < modelrandom.length; i++) {
             if (i>0 && i<modelrandom.length-1) {
-                Model.update({_id: modelrandom[i].id},{$push: {visible: [modelrandom[i+1].id], invisible: [modelrandom[i-1].id]}}, {upsert:true}, function(err, result) {
+                Model.update({_id: modelrandom[i].id},{$push: {date: date, maxPrice: maxPrice, visible: [modelrandom[i+1].id], invisible: [modelrandom[i-1].id]}}, {upsert:true}, function(err, result) {
                     console.log(result);
                 });
             } else {
                 if (i !== modelrandom.length-1) {
-                    Model.update({_id: modelrandom[i].id},{$push: {visible: [modelrandom[i+1].id], invisible: [modelrandom[modelrandom.length-1].id]}}, {upsert:true}, function(err, result) {
+                    Model.update({_id: modelrandom[i].id},{$push: {date: date, maxPrice: maxPrice, visible: [modelrandom[i+1].id], invisible: [modelrandom[modelrandom.length-1].id]}}, {upsert:true}, function(err, result) {
                         console.log(result);
                     });
                 } else {
-                    Model.update({_id: modelrandom[i].id},{$push: {visible: [modelrandom[0].id], invisible: [modelrandom[i-1].id]}}, {upsert:true}, function(err, result) {
+                    Model.update({_id: modelrandom[i].id},{$push: {date: date, maxPrice: maxPrice, visible: [modelrandom[0].id], invisible: [modelrandom[i-1].id]}}, {upsert:true}, function(err, result) {
                         console.log(result);
                     });
                 }

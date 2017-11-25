@@ -4,7 +4,7 @@
 		<%if (participant.presents.length > 0) {%>
 			<%for (var f in participant.presents) {%>
 				<%if (participant.presents.idea !== "") {%>
-					<form method="post" action="/participants/<%=participant._id%>/<%=participant.presents[f].id%>?_method=delete">
+					<form method="post" action="/participants/<%=participant.id%>/<%=participant.presents[f].id%>?_method=delete">
 						<span><%=participant.presents[f].idea%>
 						<%if (session.user && session.user.username === participant.presents[f].user) {%>
 						    <button class="btn btn-danger btn-xs" type="submit"><span class="glyphicon glyphicon-remove"></span></button>
@@ -14,7 +14,7 @@
 				<%}%>
 			<%}%>
 		<%}%>
-		<form method="post" action="/participants/<%=participant._id%>?_method=put">
+		<form method="post" action="/participants/<%=participant.id%>?_method=put">
 			<div class="form-group">
 				<h4 class="control-label col-sm-12" for="present">¿Tienes una idea de regalo?</h4>
 			</div>
