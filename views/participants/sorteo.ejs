@@ -1,0 +1,38 @@
+<div class="container">
+	<form method="post" action="/sorteo?_method=put" role="form">
+	  <div class="form-group" style="max-width:600px; margin-left:auto; margin-right:auto;">
+        <label for="exampleInputMessage">Escribe el mensaje que recibiréis:</label>
+        <textarea type="text" class="form-control" name="msg" id="msg"></textarea>
+      </div>
+      <br>
+	  <div class="form-inline">
+        <div class="form-group" style="max-width:200px; margin-left:auto; margin-right:auto;">
+            <label>Importe máximo</label>
+            <input type="number" min="1" class="form-control" name="maxprice"><br>
+        </div>
+        <div class="form-group" style="max-width:200px; margin-left:auto; margin-right:auto;">
+            <label>Fecha <span class="glyphicon glyphicon-calendar"></span></label>
+            <input type="date" class="form-control" name="date"><br>
+        </div>
+      </div>
+      <br>
+      <div class="form-inline">
+		<div class="form-group" style="max-width:200px; margin-left:auto; margin-right:auto;">
+			<label>Nombre</label>
+			<%for (var t in model) {%>
+		      	<input type="text" disabled class="form-control" id="<%=model[t].name%>" name="<%=model[t].name%>" value="<%=model[t].name%>"><br>
+		    <%}%>
+		</div>
+		<div class="form-group" style="max-width:200px; margin-left:auto; margin-right:auto;">
+			<label>E-mail</label>
+			<%for (var t in model) {%>
+		      	<input type="email" required class="form-control" id="email_<%=model[t].name%>" name="email_<%=model[t].name%>" placeholder="E-mail"><br>
+		    <%}%>
+		</div>
+	  </div>
+	  <button class="mybtn btn btn-info" type="submit">Sortear</button>
+	</form>
+	<%if(errors.message){%>
+	    <div class="alert alert-danger" role="alert">Error: <%=errors.message%></div>
+	<%}%>
+</div>

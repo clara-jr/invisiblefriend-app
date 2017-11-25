@@ -8,19 +8,7 @@
             <%if (participant.visible) {%>
                 <p>Disfruta hablando con tu amigo invisible bajo el anonimato <span class="glyphicon glyphicon-sunglasses"></span></p>
             <%} else {%>
-                <form method="post" action="/chat?_method=put">
-		            <div class="form-group">
-					    <label class="control-label col-sm-2" for="friend">Introducir amigo invisible aquí:</label>
-					    <div class="col-sm-10">
-					      	<input class="form-control" required type="text" name="friend" id="friend"/>
-					    </div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-12">
-					    	<button class="mybtn btn btn-info" type="submit">Registrar</button>
-					    </div>
-				    </div>
-				</form>
+                <p>Una vez realizado el sorteo podrás hablar con tu amigo invisible desde el anonimato, ¿a qué esperáis para realizar el sorteo y empezar a jugar?</p>
             <%}%>
             <div class="row">
                 <div class="col-md-6">
@@ -37,10 +25,15 @@
                     <div class="form-group">
                             <form method="post" action="/chat/actionInvisible?_method=put">
                                 <%if (participant.invisible && participant.invisible !== "") {%>
-                                    <input type="text" class="form-control" required placeholder="Escribe un mensaje" id="chat" name="chat"><br/>
-                                    <button class="btn btn-info" type="submit">Send</button>
+                                    <div class="input-group">
+                                      <input type="text" class="form-control" required placeholder="Escribe un mensaje" id="chat" name="chat"><br/>
+                                      <span class="input-group-addon" style="padding:0"><button class="btn btn-info btn-sm" type="submit">Send</button></span>
+                                    </div>
                                 <%} else {%>
-                                    <input type="text" class="form-control" disabled required placeholder="Escribe un mensaje" id="chat" name="chat"><br/>
+                                    <div class="input-group">
+                                      <input type="text" disabled class="form-control" required placeholder="Escribe un mensaje" id="chat" name="chat"><br/>
+                                      <span class="input-group-addon" style="padding:0"><button disabled class="btn btn-info btn-sm" type="submit">Send</button></span>
+                                    </div>
                                 <%}%>
                             </form>
                     </div>                                   
@@ -63,10 +56,15 @@
                     <div class="form-group">
                             <form method="post" action="/chat/actionVisible?_method=put">
                             <%if (participant.visible && participant.visible !== "") {%>
-								<input type="text" class="form-control" required placeholder="Escribe un mensaje" id="chat" name="chat"><br/>
-                                <button class="btn btn-info" type="submit">Send</button>
+                                <div class="input-group">
+                                  <input type="text" class="form-control" required placeholder="Escribe un mensaje" id="chat" name="chat"><br/>
+                                  <span class="input-group-addon" style="padding:0"><button class="btn btn-info btn-sm" type="submit">Send</button></span>
+                                </div>
                             <%} else {%>
-                            	<input type="text" class="form-control" disabled required placeholder="Escribe un mensaje" id="chat" name="chat"><br/>
+                            	<div class="input-group">
+                                  <input type="text" disabled class="form-control" required placeholder="Escribe un mensaje" id="chat" name="chat"><br/>
+                                  <span class="input-group-addon" style="padding:0"><button disabled class="btn btn-info btn-sm" type="submit">Send</button></span>
+                                </div>
                             <%}%>
                             </form>
                     </div>                           

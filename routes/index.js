@@ -12,19 +12,19 @@ var userController = require('../controllers/user_controller');
 router.route('/participants')  
   	.get(sessionController.loginRequired, mainController.findAll);
 
+router.route('/sorteo')  
+    .get(sessionController.loginRequired, mainController.goSorteo)
+    .put(sessionController.loginRequired, mainController.createSorteo);
+
 router.route('/chat')  
-  	.get(sessionController.loginRequired, mainController.goChat)
-  	.put(sessionController.loginRequired, mainController.createChat);
+  	.get(sessionController.loginRequired, mainController.goChat);
+  	//.put(sessionController.loginRequired, mainController.createChat);
 
 router.route('/chat/actionVisible')
   	.put(sessionController.loginRequired, mainController.sendChatVisible);
 
 router.route('/chat/actionInvisible')
   	.put(sessionController.loginRequired, mainController.sendChatInvisible);
-
-router.route('/chat')  
-  	.get(sessionController.loginRequired, mainController.goChat)
-  	.put(sessionController.loginRequired, mainController.createChat);
 
 router.route('/participants/:modelId')  
   	.get(sessionController.loginRequired, mainController.findById)

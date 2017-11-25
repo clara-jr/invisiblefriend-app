@@ -62,6 +62,52 @@ exports.deletePresentOfParticipant = function(req, res) {
 }
 
 //GET
+exports.goSorteo = function(req, res) { 
+    var errors = req.session.errors || {};
+    console.log("Error: " + errors.message);
+    req.session.errors = {};
+    Model.find({
+        groupId: req.session.user.group
+    }, function(err, model) {
+        if(err) res.send(500, err.message);
+        console.log('GET /sorteo')
+        res.render('participants/sorteo', {model: model, errors: errors});
+    });
+};
+
+//PUT
+exports.createSorteo = function(req, res) {  
+    Model.find({
+        groupId: req.session.user.group
+    }, function(err, model) {
+        if(err) res.send(500, err.message);
+        // for each participant in model
+        console.log(model.length);
+        var modelrandom;
+        modelrandom = shuffle(model);
+        for (i = 0; i < modelrandom.length; i++) {
+            if (i>0 && i<modelrandom.length-1) {
+                Model.update({_id: modelrandom[i].id},{$push: {visible: [modelrandom[i+1].id], invisible: [modelrandom[i-1].id]}}, {upsert:true}, function(err, result) {
+                    console.log(result);
+                });
+            } else {
+                if (i !== modelrandom.length-1) {
+                    Model.update({_id: modelrandom[i].id},{$push: {visible: [modelrandom[i+1].id], invisible: [modelrandom[modelrandom.length-1].id]}}, {upsert:true}, function(err, result) {
+                        console.log(result);
+                    });
+                } else {
+                    Model.update({_id: modelrandom[i].id},{$push: {visible: [modelrandom[0].id], invisible: [modelrandom[i-1].id]}}, {upsert:true}, function(err, result) {
+                        console.log(result);
+                    });
+                }
+            }
+        }
+        console.log('PUT /sorteo')
+        res.redirect('/participants');
+    });
+};
+
+//GET
 exports.goChat = function(req, res) {  
     var errors = req.session.errors || {};
     req.session.errors = {};
@@ -78,41 +124,6 @@ exports.goChat = function(req, res) {
             res.render('chat/index', {participant: participant, errors: errors});
         }
     });
-};
-
-//PUT
-exports.createChat = function(req, res) {  
-    if (req.body.friend) {
-        Model.findOne({
-            name: req.body.friend,
-            groupId: req.session.user.group
-        }, function(err, existent) {
-            if(err) {
-                req.session.errors = {"message": 'Se ha producido un error: '+err};
-                console.log(req.session.errors.message);
-                res.redirect('/login');
-                return;
-            }
-            if (existent) {
-                Model.update({_id: existent.id},{$push: {invisible: [req.session.user.id]}}, {upsert:true}, function(err, result) {
-                    console.log(result);
-                });
-                Model.update({_id: req.session.user.id},{$push: {visible: [existent.id]}}, {upsert:true}, function(err, result) {
-                    console.log(result);
-                });
-            } else {
-                req.session.errors = {"message": 'Usuario inexistente'};
-                console.log(req.session.errors);
-                console.log(req.session.errors.message);
-            }
-            res.redirect('/chat');
-        });
-    } else {
-        req.session.errors = {"message": 'Rellena el campo'};
-        console.log(req.session.errors);
-        console.log(req.session.errors.message);
-        res.redirect('/chat');
-    }
 };
 
 //PUT chat desde el usuario a su visible
@@ -167,3 +178,13 @@ exports.sendChatInvisible = function(req, res) {
     }
 };
 
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+    return a;
+}
