@@ -4,31 +4,42 @@
 		<%if (model.length > 1) {%>
 
 			<%if (model[0].visible) {%>
+				<div class="col-xs-12">
+					<p >¡Ya ha llegado el momento de pensar en el regalo más ingenioso para tu amigo invisible!<br><br>Recuerda que te ha tocado <b><%=amigo.name%></b> <br>y la fecha de entrega de regalos es <%=date%><br> con un precio máximo del regalo de <%=maxPrice%> €</p>	
+				</div>
+				<div class="col-xs-12">
+					<p >Aquí puedes cotillear las ideas de regalos de todos los participantes:<br><br></p>	
+				</div>
 				<%for (var t in model) {%>
 					<%if (session.user && session.user.id !== model[t].id) {%>
 						<div class="col-xs-12 col-sm-6 col-md-3">
 							<%if (amigo.id !== model[t].id) {%>
-								<a class="participant" href='/participants/<%=model[t].id%>'>
-									<p><%=model[t].name%></p>
+								<p><a class="participant" href='/participants/<%=model[t].id%>' style="background-color: white; padding: 10px;border-radius: 25px; border: 2px solid #00B7FF;">
+									<%=model[t].name%>
 								</a>
 							<%} else {%>
-								<a class="participant" href='/participants/<%=model[t].id%>'>
-									<p><b><%=model[t].name%></b></p>
-								</a>
+								<p><a class="participant" href='/participants/<%=model[t].id%>' style="background-color: white; padding: 10px;border-radius: 25px; border: 2px solid #00B7FF;">
+									<b><%=model[t].name%></b>
+								</a></p>
 							<%}%>
 						</div>
 					<%}%>
 				<%}%>
 				<div class="col-xs-12">
-					<p style="margin-top:30px; margin-bottom:0;">¡Ya ha llegado el momento de pensar en el regalo más ingenioso para tu amigo invisible!<br><br>Recuerda que te ha tocado <b><%=amigo.name%></b> <br>y la fecha de entrega de regalos es <%=date%><br> con un precio máximo del regalo de <%=maxPrice%> €</p>	
+					<p style="margin-top:30px; margin-bottom:0;">Aquí puedes editar tu lista de deseos para dar ideas sobre qué pueden regalarte:<br><br></p>	
+				</div>
+				<div class="col-xs-12">
+					<p><a class="participant" href='/participants/<%=session.user.id%>' style="background-color: white; padding: 10px;border-radius: 25px; border: 2px solid #00B7FF;">
+						<b><%=session.user.username%></b>
+					</a></p>
 				</div>
 			<%} else {%>
 				<%for (var t in model) {%>
 					<%if (session.user && session.user.id !== model[t].id) {%>
 						<div class="col-xs-12 col-sm-6 col-md-3">
-							<a class="participant" href='/participants/<%=model[t].id%>'>
-								<p><%=model[t].name%></p>
-							</a>	
+							<p><a class="participant" href='/participants/<%=model[t].id%>'>
+								<%=model[t].name%>
+							</a></p>	
 						</div>
 					<%}%>
 				<%}%>

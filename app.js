@@ -77,7 +77,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
-mongoose.connect('mongodb://localhost/invisiblefriend', function(err, res) {  
+mongoose.connect('mongodb://localhost/invisiblefriendd', function(err, res) {  
   if(err) {
     console.log('ERROR: connecting to Database. ' + err);
   }
