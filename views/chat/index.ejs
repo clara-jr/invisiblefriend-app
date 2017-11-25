@@ -38,7 +38,7 @@
                             <form method="post" action="/chat/actionInvisible?_method=put">
                                 <%if (participant.invisible && participant.invisible !== "") {%>
                                     <input type="text" class="form-control" required placeholder="Escribe un mensaje" id="chat" name="chat"><br/>
-                                    <button type="submit" class="btn btn-default"> Send </button>
+                                    <button class="btn btn-info" type="submit">Send</button>
                                 <%} else {%>
                                     <input type="text" class="form-control" disabled required placeholder="Escribe un mensaje" id="chat" name="chat"><br/>
                                 <%}%>
@@ -64,7 +64,7 @@
                             <form method="post" action="/chat/actionVisible?_method=put">
                             <%if (participant.visible && participant.visible !== "") {%>
 								<input type="text" class="form-control" required placeholder="Escribe un mensaje" id="chat" name="chat"><br/>
-                                <button type="submit" class="btn btn-default"> Send </button>
+                                <button class="btn btn-info" type="submit">Send</button>
                             <%} else {%>
                             	<input type="text" class="form-control" disabled required placeholder="Escribe un mensaje" id="chat" name="chat"><br/>
                             <%}%>
