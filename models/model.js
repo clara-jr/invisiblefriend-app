@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
 var modelSchema = new Schema({  
   name:    { type: String },
   password:    { type: String },
+  groupId:    { type: String },
   invisible:    { type: String },
   visible:    { type: String },
   invisibleMessages : [{

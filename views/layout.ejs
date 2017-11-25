@@ -31,7 +31,7 @@
             <li><a href="/user"><span class="myglyphicon glyphicon glyphicon-edit"></span>Sign up</a></li>
             <li><a href="/login"><span class="myglyphicon glyphicon glyphicon-log-in"></span>Login</a></li>
           <%}else{%>
-            <li><a href="/participants"><span class="myglyphicon glyphicon glyphicon-home"></span>Game</a></li>
+            <li><a href="/participants"><span class="myglyphicon glyphicon glyphicon-home"></span><%=session.user.group%>'s Game</a></li>
             <li><a href="/chat"><span class="myglyphicon glyphicon glyphicon-console"></span>Chat</a></li>
             <li><a href="/logout"><span class="myglyphicon glyphicon glyphicon-log-out"></span>Logout</a></li>
           <%}%>

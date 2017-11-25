@@ -5,7 +5,9 @@ var Model  = mongoose.model('Model');
 
 //GET - Return all participants in the DB
 exports.findAll = function(req, res) {  
-    Model.find(function(err, model) {
+    Model.find({
+        groupId: req.session.user.group
+    }, function(err, model) {
     	if(err) res.send(500, err.message);
     	console.log('GET /participants')
         res.render('participants/index', {model: model});
@@ -82,7 +84,8 @@ exports.goChat = function(req, res) {
 exports.createChat = function(req, res) {  
     if (req.body.friend) {
         Model.findOne({
-            name: req.body.friend
+            name: req.body.friend,
+            groupId: req.session.user.group
         }, function(err, existent) {
             if(err) {
                 req.session.errors = {"message": 'Se ha producido un error: '+err};

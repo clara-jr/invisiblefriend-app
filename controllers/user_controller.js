@@ -15,13 +15,15 @@ exports.signupForm = function(req, res) {
 exports.signup = function(req, res) {  
     console.log('POST');
     console.log(req.body);
-    if (req.body.login && req.body.password) {
+    if (req.body.login && req.body.password && req.body.group) {
         var participant = new Model({
             name: req.body.login,
-            password: req.body.password
+            password: req.body.password,
+            groupId: req.body.group
         });
         Model.findOne({
-            name: req.body.login
+            name: req.body.login,
+            groupId: req.body.group
         }, function(err, existent) {
             if(err) {
                 req.session.errors = {"message": 'Se ha producido un error: '+err};
@@ -42,7 +44,7 @@ exports.signup = function(req, res) {
                         res.redirect("/user");        
                         return;
                     }
-                    req.session.user = {id:participant.id, username:participant.name};
+                    req.session.user = {id:participant.id, username:participant.name, group:participant.groupId};
                     console.log(req.session.user);
                     console.log(req.session.user.id);
                     console.log(req.session.user.username);

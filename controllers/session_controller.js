@@ -26,9 +26,10 @@ exports.loginForm = function(req, res) {
 exports.login = function(req, res) {
     console.log('POST');
     console.log(req.body);
-    if (req.body.login && req.body.password) {
+    if (req.body.login && req.body.password && req.body.group) {
         Model.findOne({
-            name: req.body.login
+            name: req.body.login,
+            groupId: req.body.group
         }, function(err, participant) {
             if(err) {
                 req.session.errors = {"message": 'Se ha producido un error: '+err};
@@ -38,7 +39,7 @@ exports.login = function(req, res) {
             }
             if (participant) {
                 if (participant.password === req.body.password) {
-                    req.session.user = {id:participant.id, username:participant.name};
+                    req.session.user = {id:participant.id, username:participant.name, group:participant.groupId};
                 } else {
                     req.session.errors = {"message": 'Contraseña incorrecta'};
                 }
