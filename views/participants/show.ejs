@@ -5,8 +5,12 @@
 			<%if (participant.presents.length > 0) {%>
 				<%for (var f in participant.presents) {%>
 					<%if (participant.presents[f].idea && participant.presents[f].idea !== "") {%>
-						<form method="post" action="/participants/<%=participant.id%>/<%=participant.presents[f].id%>?_method=delete">
-							<span><%=participant.presents[f].idea%>
+						<form style="margin: 30px;" method="post" action="/participants/<%=participant.id%>/<%=participant.presents[f].id%>?_method=delete">
+							<%if (participant.presents[f].user !== participant.name) {%>
+								<span><span style="background-color: #d9534f; padding: 5px;border-radius: 25px; border: 2px solid white; color: white;" ><b>Putada</b></span>: <%=participant.presents[f].idea%>
+							<%} else {%>
+								<span><span style="background-color: #5cb85c; padding: 5px;border-radius: 25px; border: 2px solid white; color: white;"><b>Deseo</b></span>: <%=participant.presents[f].idea%>
+							<%}%>
 							<%if (session.user && session.user.username === participant.presents[f].user) {%>
 							    <button class="btn btn-danger btn-xs" type="submit"><span class="glyphicon glyphicon-remove"></span></button>
 							<%}%>
