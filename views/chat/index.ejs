@@ -5,7 +5,7 @@
             tu amigo invisible o al destinatario de tu maravilloso regalo!
             </p>
             <br />
-            <%if (participant.visible && participant.visible !== "") {%>
+            <%if (participant.visible) {%>
                 <p>Disfruta hablando con tu amigo invisible bajo el anonimato <span class="glyphicon glyphicon-sunglasses"></span></p>
             <%} else {%>
                 <form method="post" action="/chat?_method=put">
@@ -46,7 +46,7 @@
                     </div>                                   
                 </div>
                 <div class="col-md-6">
-                    <%if(amigo){%>
+                    <%if(participant.visible){%>
                         <p><u> Putea tranquilo a <%=amigo.name%> </u> </p> <br />
                     <%} else {%>
                         <p><u> Putea tranquilo </u> </p> <br />
@@ -78,3 +78,11 @@
         </div><!-- .col-md-12 close -->
     </div><!-- row close -->
 </div><!-- .container close -->
+
+<script>
+      $(document).ready(function() {
+        setTimeout(function(){
+          window.location.reload(1);
+        }, 60000);
+      });
+</script>
