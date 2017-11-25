@@ -4,7 +4,7 @@
 			<h2><%=participant.name%></h2>
 			<%if (participant.presents.length > 0) {%>
 				<%for (var f in participant.presents) {%>
-					<%if (participant.presents.idea !== "") {%>
+					<%if (participant.presents[f].idea && participant.presents[f].idea !== "") {%>
 						<form method="post" action="/participants/<%=participant.id%>/<%=participant.presents[f].id%>?_method=delete">
 							<span><%=participant.presents[f].idea%>
 							<%if (session.user && session.user.username === participant.presents[f].user) {%>
@@ -40,7 +40,7 @@
 			<h2>Lista de deseos</h2>
 			<%if (participant.presents.length > 0) {%>
 				<%for (var f in participant.presents) {%>
-					<%if (session.user && session.user.username === participant.presents[f].user && participant.presents.idea !== "") {%>
+					<%if (session.user && session.user.username === participant.presents[f].user && participant.presents[f].idea !== "") {%>
 						<form method="post" action="/participants/<%=participant.id%>/<%=participant.presents[f].id%>?_method=delete">
 							<span><%=participant.presents[f].idea%>
 							<button class="btn btn-danger btn-xs" type="submit"><span class="glyphicon glyphicon-remove"></span></button>
