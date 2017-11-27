@@ -12,8 +12,10 @@ exports.findAll = function(req, res) {
     	console.log('GET /participants');
         Model.findById(req.session.user.id, function(err, participant) {
             if(err) return res.status(500).send(err.message);
-            console.log('GET /participants/' + req.session.user.id);
-            if (participant.visible) {
+            console.log('GET /participants');
+            console.log(participant.visible);
+            if (participant.visible && participant.visible !== "reset") {
+                console.log(participant.visible);
                 Model.findById(participant.visible, function(err, amigo) {
                     if(err) return res.status(500).send(err.message);
                     console.log('GET /chat');
@@ -99,16 +101,16 @@ exports.createSorteo = function(req, res) {
         modelrandom = shuffle(model);
         for (i = 0; i < modelrandom.length; i++) {
             if (i>0 && i<modelrandom.length-1) {
-                Model.update({_id: modelrandom[i].id},{$push: {date: date, maxPrice: maxPrice, visible: [modelrandom[i+1].id], invisible: [modelrandom[i-1].id]}}, {upsert:true}, function(err, result) {
+                Model.update({_id: modelrandom[i].id},{date: date, maxPrice: maxPrice, visible: [modelrandom[i+1].id], invisible: [modelrandom[i-1].id]}, {upsert:true}, function(err, result) {
                     console.log(result);
                 });
             } else {
                 if (i !== modelrandom.length-1) {
-                    Model.update({_id: modelrandom[i].id},{$push: {date: date, maxPrice: maxPrice, visible: [modelrandom[i+1].id], invisible: [modelrandom[modelrandom.length-1].id]}}, {upsert:true}, function(err, result) {
+                    Model.update({_id: modelrandom[i].id},{date: date, maxPrice: maxPrice, visible: [modelrandom[i+1].id], invisible: [modelrandom[modelrandom.length-1].id]}, {upsert:true}, function(err, result) {
                         console.log(result);
                     });
                 } else {
-                    Model.update({_id: modelrandom[i].id},{$push: {date: date, maxPrice: maxPrice, visible: [modelrandom[0].id], invisible: [modelrandom[i-1].id]}}, {upsert:true}, function(err, result) {
+                    Model.update({_id: modelrandom[i].id},{date: date, maxPrice: maxPrice, visible: [modelrandom[0].id], invisible: [modelrandom[i-1].id]}, {upsert:true}, function(err, result) {
                         console.log(result);
                     });
                 }
@@ -126,7 +128,7 @@ exports.goChat = function(req, res) {
     Model.findById(req.session.user.id, function(err, participant) {
         if(err) return res.status(500).send(err.message);
         console.log('GET /chat');
-        if (participant.visible) {
+        if (participant.visible && participant.visible !== "reset") {
             Model.findById(participant.visible, function(err, amigo) {
                 if(err) return res.status(500).send(err.message);
                 console.log('GET /chat');
@@ -198,6 +200,22 @@ exports.deleteUser = function(req, res) {
             delete req.session.user;
             res.redirect('/');
         })
+    });
+};
+
+//PUT
+exports.resetGroupGame = function(req, res) {  
+    Model.find({
+        groupId: req.session.user.group
+    }, function(err, model) {
+        if(err) res.send(500, err.message);
+        // for each participant in model
+        for (i = 0; i < model.length; i++) {
+            Model.update({_id: model[i].id},{visible: "reset", invisible: "reset"}, function(err, result) {
+                console.log(result);
+            });
+        }
+        res.redirect('/participants');
     });
 };
 

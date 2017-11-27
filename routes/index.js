@@ -43,6 +43,7 @@ router.route('/user')
 	.post(userController.signup);     // registrar usuario
 
 router.route('/delete')  
-    .delete(sessionController.loginRequired, mainController.deleteUser);
+    .delete(sessionController.loginRequired, mainController.deleteUser)
+    .put(sessionController.loginRequired, mainController.resetGroupGame);
 
 module.exports = router;

@@ -3,7 +3,7 @@
 
 		<%if (model.length > 1) {%>
 
-			<%if (model[0].visible) {%>
+			<%if (model[0].visible && model[0].visible !== "reset") {%>
 				<div class="col-xs-12">
 					<p >¡Ya ha llegado el momento de pensar en el regalo más ingenioso para tu amigo invisible!<br><br>Recuerda que te ha tocado <b><%=amigo.name%></b> <br>y la fecha de entrega de regalos es <%=date%><br> con un precio máximo del regalo de <%=maxPrice%> €</p>	
 				</div>
@@ -32,6 +32,12 @@
 					<p><a class="participant" href='/participants/<%=session.user.id%>' style="background-color: white; padding: 10px;border-radius: 25px; border: 2px solid #00B7FF;">
 						<b><%=session.user.username%></b>
 					</a></p>
+				</div>
+				<div class="col-xs-12">
+					<p style="margin-top:30px; margin-bottom:0;">¿Queréis reiniciar el juego?</p>
+					<form style="margin: 30px;" method="post" action="/delete?_method=put">
+						<button class="mybtn btn btn-info" type="submit">Reiniciar</button>
+					</form>
 				</div>
 			<%} else {%>
 				<%for (var t in model) {%>
