@@ -190,6 +190,17 @@ exports.sendChatInvisible = function(req, res) {
     }
 };
 
+//DELETE
+exports.deleteUser = function(req, res) {
+    Model.findById(req.session.user.id, function(err, user) {
+        user.remove(function(err) {
+            if(err) return res.status(500).send(err.message);
+            delete req.session.user;
+            res.redirect('/');
+        })
+    });
+};
+
 function shuffle(a) {
     var j, x, i;
     for (i = a.length - 1; i > 0; i--) {

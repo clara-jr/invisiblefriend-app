@@ -42,4 +42,7 @@ router.route('/user')
 	.get(userController.signupForm)     // formulario sign un
 	.post(userController.signup);     // registrar usuario
 
+router.route('/delete')  
+    .delete(sessionController.loginRequired, mainController.deleteUser);
+
 module.exports = router;
