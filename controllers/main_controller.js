@@ -214,6 +214,16 @@ exports.resetGroupGame = function(req, res) {
             Model.update({_id: model[i].id},{visible: "reset", invisible: "reset"}, function(err, result) {
                 console.log(result);
             });
+            for (j = 0; j < model[i].visibleMessages.length; j++) {
+                Model.update({_id: model[i].id},{$pull: {visibleMessages:{_id: [model[i].visibleMessages[j].id]}}}, function(err, result) {
+                   console.log(result);
+                });
+            }
+            for (j = 0; j < model[i].invisibleMessages.length; j++) {
+                Model.update({_id: model[i].id},{$pull: {invisibleMessages:{_id: [model[i].invisibleMessages[j].id]}}}, function(err, result) {
+                   console.log(result);
+                });
+            }
         }
         res.redirect('/participants');
     });
