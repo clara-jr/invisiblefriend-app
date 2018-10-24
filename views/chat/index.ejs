@@ -5,7 +5,7 @@
             tu amigo invisible o al destinatario de tu maravilloso regalo!
             </p>
             <br />
-            <%if (participant.visible && participant.visible !== "reset") {%>
+            <%if (participant.visible && participant.visible != "reset") {%>
                 <p>Disfruta hablando con tu amigo invisible bajo el anonimato <span class="glyphicon glyphicon-sunglasses"></span></p>
             <%} else {%>
                 <p>Una vez realizado el sorteo podrás hablar con tu amigo invisible desde el anonimato<br>¿A qué esperáis para realizar el sorteo y empezar a jugar?</p>
@@ -15,7 +15,7 @@
                     <p><u> Chatea con quien quiere putearte </u> </p> <br />
                     <div id="scroll" class="scroll" style="height: 400px; padding: 30px; overflow: auto; background-color: #F2F2F2; border: 3px solid #E6E6E6; word-wrap: break-word ">
                             <%for (var f in participant.invisibleMessages) {%>
-                            	<%if (participant.invisibleMessages[f].origin === true) {%>
+                            	<%if (participant.invisibleMessages[f].origin == true) {%>
                             		<p style=" color: green; text-align: right;"><%=participant.invisibleMessages[f].text%></p>
                             	<%} else {%>
                             		<p style=" color: black; text-align: left;"><%=participant.invisibleMessages[f].text%></p>
@@ -24,7 +24,7 @@
 	                </div>                               	
                     <div class="form-group">
                             <form method="post" action="/chat/actionInvisible?_method=put">
-                                <%if (participant.invisible && participant.invisible !== "reset") {%>
+                                <%if (participant.invisible && participant.invisible != "reset") {%>
                                     <div class="input-group">
                                       <input type="text" class="form-control" required placeholder="Escribe un mensaje" id="chat" name="chat"><br/>
                                       <span class="input-group-addon" style="padding:0"><button class="btn btn-info btn-sm" type="submit">Send</button></span>
@@ -39,14 +39,14 @@
                     </div>                                   
                 </div>
                 <div class="col-md-6">
-                    <%if(participant.visible && participant.visible !== "reset"){%>
+                    <%if(participant.visible && participant.visible != "reset"){%>
                         <p><u> Putea tranquilo a <%=amigo.name%> </u> </p> <br>
                     <%} else {%>
                         <p><u> Putea tranquilo </u> </p> <br>
                     <%}%>
                     <div id="scroll" class="scroll" style="height: 400px; padding: 30px; overflow: auto; background-color: #F2F2F2; border: 3px solid #E6E6E6; word-wrap: break-word">
                     		<%for (var f in participant.visibleMessages) {%>
-                            	<%if (participant.visibleMessages[f].origin === true) {%>
+                            	<%if (participant.visibleMessages[f].origin == true) {%>
                             		<p style=" color: green; text-align: right;"><%=participant.visibleMessages[f].text%></p>
                             	<%} else {%>
                             		<p style=" color: black; text-align: left;"><%=participant.visibleMessages[f].text%></p>
@@ -55,7 +55,7 @@
                     </div>
                     <div class="form-group">
                             <form method="post" action="/chat/actionVisible?_method=put">
-                            <%if (participant.visible && participant.visible !== "reset") {%>
+                            <%if (participant.visible && participant.visible != "reset") {%>
                                 <div class="input-group">
                                   <input type="text" class="form-control" required placeholder="Escribe un mensaje" id="chat" name="chat"><br/>
                                   <span class="input-group-addon" style="padding:0"><button class="btn btn-info btn-sm" type="submit">Send</button></span>

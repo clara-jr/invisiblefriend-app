@@ -7,7 +7,9 @@ var bodyParser = require('body-parser');
 var partials = require('express-partials');
 var methodOverride = require('method-override');
 var session = require('express-session');
-var mongoose = require('mongoose');
+var mongo = require('mongodb');
+var MongoClient = mongo.MongoClient;
+var url = "mongodb://localhost:27017/invisiblefriend";
 
 var routes = require('./routes/index');
 
@@ -77,13 +79,26 @@ app.use(function(err, req, res, next) {
   });
 });
 
-mongoose.connect('mongodb://localhost/invisiblefriend', function(err, res) {  
-  if(err) {
-    console.log('ERROR: connecting to Database. ' + err);
-  }
-  app.listen(8080, function() {
-    console.log("Node server running on http://localhost:8080");
+// Create database
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  console.log("Database created!");
+  db.close();
+});
+
+// Create collection
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("invisiblefriend");
+  dbo.createCollection("users", function(err, res) {
+    if (err) throw err;
+    console.log("Collection created!");
+    db.close();
   });
+});
+
+app.listen(8080, function() {
+    console.log("Node server running on http://localhost:8080");
 });
 
 module.exports = app;

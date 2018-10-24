@@ -1,7 +1,6 @@
 //File: controllers/main_controller.js
-var mongoose = require('mongoose');  
-require('../models/model');
-var Model  = mongoose.model('Model');
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
 
 // MW de autorización de accesos HTTP restringidos
 exports.loginRequired = function(req, res, next){
@@ -27,29 +26,32 @@ exports.login = function(req, res) {
     console.log('POST');
     console.log(req.body);
     if (req.body.login && req.body.password && req.body.group) {
-        Model.findOne({
-            name: req.body.login,
-            groupId: req.body.group
-        }, function(err, participant) {
-            if(err) {
-                req.session.errors = {"message": 'Se ha producido un error: '+err};
-                console.log(req.session.errors.message);
-                res.redirect('/login');
-                return;
-            }
-            if (participant) {
-                if (participant.password === req.body.password) {
-                    req.session.user = {id:participant.id, username:participant.name, group:participant.groupId};
-                } else {
-                    req.session.errors = {"message": 'Contraseña incorrecta'};
+        MongoClient.connect(url, function(err, db) {
+            if (err) return res.status(500).send(err.message); // Internal Server Error
+            var dbo = db.db("invisiblefriend");
+            var query = { name: req.body.login, groupId: req.body.group };
+            dbo.collection("users").findOne(query, function(err, result) {
+                if (err) { // Internal Server Error
+                    req.session.errors = {"message": 'Se ha producido un error: '+err};
+                    console.log(req.session.errors.message);
+                    res.redirect("/login");        
+                    return;
                 }
-            } else {
-                req.session.errors = {"message": 'Usuario inexistente'};
-                console.log(req.session.errors);
-                console.log(req.session.errors.message);
-            }
-            console.log(req.session.user);
-            res.redirect('/participants');
+                if (result) {
+                    if (result.password === req.body.password) {
+                        req.session.user = {id:result._id, username:result.name, group:result.groupId};
+                    } else {
+                        req.session.errors = {"message": 'Contraseña incorrecta'};
+                    }
+                } else {
+                    req.session.errors = {"message": 'Usuario inexistente'};
+                    console.log(req.session.errors);
+                    console.log(req.session.errors.message);
+                }
+                console.log(req.session.user);
+                db.close();
+                res.redirect('/participants');
+            });
         });
     } else {
         req.session.errors = {"message": 'Rellena los campos'};

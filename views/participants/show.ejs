@@ -1,12 +1,12 @@
 <div class="container">
-	<%if (session.user && session.user.id !== participant.id) {%>
+	<%if (session.user && session.user.id != participant._id) {%>
 		<div class="col-xs-12">
 			<h2><%=participant.name%></h2>
 			<%if (participant.presents.length > 0) {%>
 				<%for (var f in participant.presents) {%>
-					<%if (participant.presents[f].idea && participant.presents[f].idea !== "") {%>
-						<form style="margin: 30px;" method="post" action="/participants/<%=participant.id%>/<%=participant.presents[f].id%>?_method=delete">
-							<%if (participant.presents[f].user !== participant.name) {%>
+					<%if (participant.presents[f].idea && participant.presents[f].idea != "") {%>
+						<form style="margin: 30px;" method="post" action="/participants/<%=participant._id%>/<%=participant.presents[f]._id%>?_method=delete">
+							<%if (participant.presents[f].user != participant.name) {%>
 								<span><span style="background-color: #d9534f; padding: 5px;border-radius: 25px; border: 2px solid white; color: white;" ><b>Putada</b></span>: <%=participant.presents[f].idea%>
 							<%} else {%>
 								<span><span style="background-color: #5cb85c; padding: 5px;border-radius: 25px; border: 2px solid white; color: white;"><b>Deseo</b></span>: <%=participant.presents[f].idea%>
@@ -19,7 +19,7 @@
 					<%}%>
 				<%}%>
 			<%}%>
-			<form method="post" action="/participants/<%=participant.id%>?_method=put">
+			<form method="post" action="/participants/<%=participant._id%>?_method=put">
 				<div class="form-group">
 					<h4 class="control-label col-sm-12" for="present">¿Tienes una idea de regalo?</h4>
 				</div>
@@ -44,8 +44,8 @@
 			<h2>Lista de deseos</h2>
 			<%if (participant.presents.length > 0) {%>
 				<%for (var f in participant.presents) {%>
-					<%if (session.user && session.user.username === participant.presents[f].user && participant.presents[f].idea !== "") {%>
-						<form method="post" action="/participants/<%=participant.id%>/<%=participant.presents[f].id%>?_method=delete">
+					<%if (session.user && session.user.username === participant.presents[f].user && participant.presents[f].idea != "") {%>
+						<form method="post" action="/participants/<%=participant._id%>/<%=participant.presents[f]._id%>?_method=delete">
 							<span><%=participant.presents[f].idea%>
 							<button class="btn btn-danger btn-xs" type="submit"><span class="glyphicon glyphicon-remove"></span></button>
 							</span>
@@ -53,7 +53,7 @@
 					<%}%>
 				<%}%>
 			<%}%>
-			<form method="post" action="/participants/<%=participant.id%>?_method=put">
+			<form method="post" action="/participants/<%=participant._id%>?_method=put">
 				<div class="form-group">
 					<h4 class="control-label col-sm-12" for="present">¿Tienes una idea sobre qué te gustaría que te regalaran?</h4>
 				</div>
